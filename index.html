@@ -248,7 +248,7 @@
         await signInWithEmailAndPassword(auth, email, password);
         alert("Login berhasil!");
       }catch(error){
-        alert("Login gagal: " + error.code);
+        alert("Login gagal: " + error.code + " - " + error.message);
         console.error(error);
       }
     };
@@ -260,22 +260,17 @@
 
     window.deleteMessage = async function(id){
 
-  const yakin = confirm("Hapus pesan ini?");
+      const yakin = confirm("Hapus pesan ini?");
+      if(!yakin) return;
 
-  if(!yakin) return;
-
-  try{
-
-    await deleteDoc(doc(db, "messages", id));
-
-    alert("Pesan berhasil dihapus!");
-
-  }catch(error){
-
-    alert("Gagal menghapus: " + error.message);
-
-  }
-}
+      try{
+        await deleteDoc(doc(db, "messages", id));
+        alert("Pesan berhasil dihapus!");
+      }catch(error){
+        alert("Gagal menghapus: " + error.code + " - " + error.message);
+        console.error(error);
+      }
+    };
 
     onAuthStateChanged(auth, (user) => {
       if(user){
@@ -324,7 +319,6 @@
 
           const data = document.data();
           const id = document.id;
-          const data = doc.data();
 
           let tanggal = "Belum ada tanggal";
           if(data.createdAt){
@@ -406,7 +400,7 @@
         document.getElementById("email").value = "";
         document.getElementById("message").value = "";
       }catch(error){
-        alert("❌ Gagal mengirim pesan: " + error.code);
+        alert("❌ Gagal mengirim pesan: " + error.code + " - " + error.message);
         console.error(error);
       }finally{
         btn.disabled = false;
