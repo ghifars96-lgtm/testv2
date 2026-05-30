@@ -270,7 +270,7 @@ cursor:pointer;
       await signOut(auth);
       alert("Berhasil logout!");
     };
-
+    let selectedMessages = [];
     window.deleteMessage = async function(id){
 
       const yakin = confirm("Hapus pesan ini?");
