@@ -346,7 +346,22 @@ cursor:pointer;
   margin-top:15px;
 ">
 
-  <h3>${data.name}</h3>
+ <div style="
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:10px;
+">
+
+<input
+type="checkbox"
+onchange="toggleMessageSelection('${id}')">
+
+<h3 style="margin:0;">
+${data.name}
+</h3>
+
+</div>
 
   <p><b>Email:</b> ${data.email}</p>
 
@@ -435,6 +450,44 @@ cursor:pointer;
       });
     }
 
+    window.deleteSelectedMessages = async function(){
+
+  if(selectedMessages.length === 0){
+    alert("Pilih pesan dulu!");
+    return;
+  }
+
+  if(!confirm(`Hapus ${selectedMessages.length} pesan?`)){
+    return;
+  }
+
+  try{
+
+    for(const id of selectedMessages){
+      await deleteDoc(doc(db,"messages",id));
+    }
+
+    selectedMessages = [];
+
+    alert("Pesan berhasil dihapus!");
+
+  }catch(error){
+
+    alert("Gagal menghapus: " + error.message);
+
+  }
+
+}
+window.toggleMessageSelection = function(id){
+
+  if(selectedMessages.includes(id)){
+    selectedMessages =
+      selectedMessages.filter(item => item !== id);
+  }else{
+    selectedMessages.push(id);
+  }
+
+}
     window.addEventListener("scroll", revealOnScroll);
     revealOnScroll();
 
