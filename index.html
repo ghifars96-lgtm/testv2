@@ -329,6 +329,11 @@ cursor:pointer;
       }
     });
 
+    function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
     function loadMessages(){
       const messagesList = document.getElementById("messagesList");
 
@@ -369,20 +374,20 @@ cursor:pointer;
           }
 
           messagesList.innerHTML += `
-            <div class="message-card">
-              <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-                <input
-                  type="checkbox"
-                  onchange="toggleMessageSelection('${id}')"
-                  style="width:20px;height:20px;padding:0;margin:0;flex-shrink:0;accent-color:#2563eb;">
-                <h3 style="margin:0;">${data.name || "Tanpa nama"}</h3>
-              </div>
+  <div class="message-card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+      <input
+        type="checkbox"
+        onchange="toggleMessageSelection('${id}')"
+        style="width:20px;height:20px;padding:0;margin:0;flex-shrink:0;accent-color:#2563eb;">
+      <h3 style="margin:0;">${escapeHtml(data.name || "Tanpa nama")}</h3>
+    </div>
 
-              <p><b>Email:</b> ${data.email || "-"}</p>
-              <p><b>Pesan:</b><br>${data.message || "-"}</p>
-              <small>${tanggal}</small>
-            </div>
-          `;
+    <p><b>Email:</b> ${escapeHtml(data.email || "-")}</p>
+    <p><b>Pesan:</b><br>${escapeHtml(data.message || "-")}</p>
+    <small>${tanggal}</small>
+  </div>
+`;
         });
       }, (error) => {
         messagesList.innerHTML = "<p>Gagal mengambil pesan. Cek Firestore Rules.</p>";
