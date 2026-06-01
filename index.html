@@ -164,9 +164,20 @@
       <h2 class="section-title reveal">Kirim <span>Pesan</span></h2>
 
       <div class="contact-form reveal">
-        <input type="text" id="name" placeholder="Nama kamu">
-        <input type="email" id="email" placeholder="Email kamu">
-        <textarea id="message" rows="6" placeholder="Tulis pesan kamu..."></textarea>
+        <input type="text"
+       id="name"
+       maxlength="50"
+       placeholder="Nama kamu">
+
+<input type="email"
+       id="email"
+       maxlength="100"
+       placeholder="Email kamu">
+
+<textarea id="message"
+          rows="6"
+          maxlength="500"
+          placeholder="Tulis pesan kamu..."></textarea>
         <button id="sendBtn" onclick="sendMessage()">Kirim Pesan</button>
       </div>
 
@@ -406,6 +417,11 @@ cursor:pointer;
         return;
       }
 
+      if(message.length > 500){
+    alert("Pesan maksimal 500 karakter!");
+    return;
+}
+      
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if(!emailRegex.test(email)){
         alert("Format email tidak valid!");
